@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* Optional CSS for visual enhancements (customize as needed) */
+    .user-list {
+      display: none; /* Initially hide the user list */
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <aside class="flex flex-col w-64 bg-white shadow-md rounded-lg overflow-hidden">
+      <button id="usersButton" class="py-3 px-6 text-left font-bold hover:bg-gray-100 focus:outline-none">Users</button>
+      </aside>
+
+    <div class="flex-1 p-10">
+      <h1 class="text-3xl font-bold mb-6">User List</h1>
+
+      <div id="userListContainer" class="bg-white shadow-md rounded-lg overflow-hidden user-list">
+        <table class="min-w-full">
+          <thead>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <th class="py-3 px-6 text-left">ID</th>
+              <th class="py-3 px-6 text-left">Name</th>
+              <th class="py-3 px-6 text-center">Admin</th>
+              <th class="py-3 px-6 text-center">Manager</th>
+              <th class="py-3 px-6 text-center">User</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600 text-sm font-light">
+            <tr th:each="user : ${users}" class="border-b border-gray-200 hover:bg-gray-100">
+              <td class="py-3 px-6 text-left whitespace-nowrap" th:text="${user.id}"></td>
+              <td class="py-3 px-6 text-left" th:text="${user.name}"></td>
+              <td class="py-3 px-6 text-center" th:text="${user.admin}"></td>
+              <td class="py-3 px-6 text-center" th:text="${user.manager}"></td>
+              <td class="py-3 px-6 text-center" th:text="${user.user}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const usersButton = document.getElementById('usersButton');
+    const userListContainer = document.getElementById('userListContainer');
+
+    usersButton.addEventListener('click', () => {
+      userListContainer.classList.toggle('user-list'); // Toggle visibility
+    });
+  </script>
+</body>
+</html>
