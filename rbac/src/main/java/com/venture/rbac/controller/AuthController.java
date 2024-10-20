@@ -12,26 +12,26 @@ import com.venture.rbac.entity.User;
 import com.venture.rbac.service.UserService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth") 
 public class AuthController {
-	
-	@Autowired
-	private UserService userService;
-	
-	@PostMapping("/signup")
-	public ResponseEntity<String> signUp(@RequestBody User user) {
-		userService.signUp(user);
-		return ResponseEntity.ok("User registered successfully");
-	}
-	
-	@PostMapping("/signin")
-	public ResponseEntity<String> signIn(@RequestBody String name, @RequestParam String password) {
-		try {
-			userService.signIn(name, password);
-			return ResponseEntity.ok("Login successfull");
-		} catch (Exception e ) {
-			return ResponseEntity.badRequest().body("Invalid credentials");
-		}
-	}
-
+    
+    @Autowired
+    private UserService userService;
+    
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUp(@RequestBody User user) {
+        userService.signUp(user);
+        return ResponseEntity.ok("User registered successfully");
+    }
+    
+    // Fixed the parameter handling
+    @PostMapping("/signin")
+    public ResponseEntity<String> signIn(@RequestBody User user) {  // Changed to accept User object
+        try {
+            userService.signIn(user.getName(), user.getPassword());
+            return ResponseEntity.ok("Login successful");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid credentials");
+        }
+    }
 }
