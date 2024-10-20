@@ -1,7 +1,5 @@
 package com.venture.rbac.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +15,6 @@ public class UserService {
 	public User signUp(User user) {
 		return userRepository.save(user);
 	}
-
-	public List<User> getAll() {
-		return userRepository.findAll();
-	} 
 	
 	public User signIn(String name, String password) {
 		User user = userRepository.findByName(name);
