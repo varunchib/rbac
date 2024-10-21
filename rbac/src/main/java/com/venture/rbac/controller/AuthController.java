@@ -2,6 +2,7 @@ package com.venture.rbac.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +27,19 @@ public class AuthController {
     
     // Fixed the parameter handling
     @PostMapping("/signin")
-    public ResponseEntity<String> signIn(@RequestBody User user) {  // Changed to accept User object
+    public String signIn(@RequestParam("name") String name, @RequestParam("password") String password , 
+    Model model) {  
         try {
-            userService.signIn(user.getName(), user.getPassword());
-            return ResponseEntity.ok("Login successful");
+            User user = userService.signIn(name, password);
+            if (user.getIsAdmin()) {
+                model.addAttribute("user", user);
+                return "redirect:/dashboard";
+            } else {
+                return "redirect:/dashboard";
+            }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Invalid credentials");
+            model.addAttribute("error", "Invalid credentials");
+            return "login";
         }
     }
 }
