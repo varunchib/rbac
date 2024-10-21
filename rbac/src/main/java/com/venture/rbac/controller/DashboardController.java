@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.security.Principal;
+import java.util.List;
 
 import com.venture.rbac.entity.User;
 import com.venture.rbac.service.UserService;
@@ -14,6 +15,14 @@ public class DashboardController {
 
     @Autowired
     private UserService userService;
+    
+
+    @GetMapping("/admin/manage-users")
+    public String manageUsers(Model model) {
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "manage-users";
+    }
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model, Principal principal) {

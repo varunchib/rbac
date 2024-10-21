@@ -33,7 +33,6 @@ public class SignUpController {
         
         try {
             userService.signUp(user);
-            // Redirect to signin page after successful registration
             return "Registration Successful! <a href='/signin'>Click here to Sign In</a>";
         } catch (Exception e) {
             return "Registration failed: " + e.getMessage();

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
-    <link rel="stylesheet" href="/static/css/style.css"> 
+    <link rel="stylesheet" href="/static/css/style.css"> <!-- Reference to external CSS -->
 </head>
 <body>
 
@@ -31,18 +31,16 @@
             <tr th:each="user : ${users}">
                 <td th:text="${user.name}">Username</td>
                 <td th:text="${user.password}">Password</td>
-                <td th:switch="${user}">
-                    <span th:case="*{isAdmin}">Admin</span>
-                    <span th:case="*{isManager}">Manager</span>
-                    <span th:case="*{isUser}">User</span>
-                </td>
+                <td th:if="${user.isAdmin}">Admin</td>
+                <td th:if="${user.isManager}">Manager</td>
+                <td th:if="${user.isUser}">User</td>
                 <td>
                     <form action="/dashboard/assign-role" method="post">
                         <input type="hidden" name="username" th:value="${user.name}">
                         <select name="role">
-                            <option value="ADMIN" th:selected="${user.isAdmin}">Admin</option>
-                            <option value="MANAGER" th:selected="${user.isManager}">Manager</option>
-                            <option value="USER" th:selected="${user.isUser}">User</option>
+                            <option value="ADMIN" th:attr="selected=${user.isAdmin}">Admin</option>
+                            <option value="MANAGER" th:attr="selected=${user.isManager}">Manager</option>
+                            <option value="USER" th:attr="selected=${user.isUser}">User</option>
                         </select>
                         <button type="submit">Save</button>
                     </form>
